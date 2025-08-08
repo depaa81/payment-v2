@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin - Riwayat Pembayaran</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    body.dark {
+      background-color: #1e293b;
+      color: #cbd5e1;
+    }
+    body.dark table thead {
+      background-color: #4338ca;
+    }
+    body.dark table tbody tr:nth-child(even) {
+      background-color: #374151;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 dark:bg-slate-800 min-h-screen p-4 sm:p-6">
+
+  <div class="max-w-6xl mx-auto bg-white dark:bg-slate-900 rounded-xl shadow-lg p-6">
+    <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+      <h1 class="text-2xl font-bold text-gray-800 dark:text-slate-100">📊 Panel Admin - Riwayat Pembayaran</h1>
+      <div class="flex flex-wrap gap-3">
+        <button id="toggleDark" class="bg-gray-700 text-white dark:bg-gray-300 dark:text-black px-4 py-2 rounded-lg shadow hover:bg-gray-800 dark:hover:bg-white transition">
+          Dark Mode
+        </button>
+        <button id="hapusRiwayat" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow transition">
+          Hapus Semua Riwayat
+        </button>
+      </div>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm text-left text-gray-700 dark:text-gray-300">
+        <thead class="bg-indigo-600 text-white dark:bg-indigo-700">
+          <tr>
+            <th class="px-4 py-3">Nama</th>
+            <th class="px-4 py-3">E-Wallet</th>
+            <th class="px-4 py-3">Nominal (Rp)</th>
+            <th class="px-4 py-3">Waktu</th>
+          </tr>
+        </thead>
+        <tbody id="riwayatTable" class="bg-white dark:bg-slate-800 divide-y divide-gray-200 dark:divide-slate-700">
+          <!-- Data akan dimuat di sini -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const bodyEl = document.body;
+    const toggleBtn = document.getElementById("toggleDark");
+    const hapusBtn = document.getElementById("hapusRiwayat");
+    const tableBody = document.getElementById("riwayatTable");
+
+    if (localStorage.getItem("darkMode") === "enabled") {
+      bodyEl.classList.add("dark");
+      toggleBtn.textContent = "Light Mode";
+    }
+
+    toggleBtn.addEventListener("click", () => {
+      bodyEl.classList.toggle("dark");
+      if (bodyEl.classList.contains("dark")) {
+        localStorage.setItem("darkMode", "enabled");
+        toggleBtn.textContent = "Light Mode";
+      } else {
+        localStorage.setItem("darkMode", "disabled");
+        toggleBtn.textContent = "Dark Mode";
+      }
+    });
+
+    function loadRiwayat() {
+      const riwayat = JSON.parse(localStorage.getItem("riwayatPembayaran") || "[]");
+      tableBody.innerHTML = "";
+
+      if (riwayat.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="4" class="text-center px-4 py-6 text-gray-500 dark:text-gray-400">Belum ada riwayat pembayaran.</td></tr>`;
+        return;
+      }
+
+      riwayat.reverse().forEach(item => {
+        const row = document.createElement("tr");
+        row.className = "hover:bg-gray-100 dark:hover:bg-slate-700";
+        row.innerHTML = `
+          <td class="px-4 py-3">${item.nama}</td>
+          <td class="px-4 py-3">${item.ewallet}</td>
+          <td class="px-4 py-3">Rp${Number(item.amount).toLocaleString("id-ID")}</td>
+          <td class="px-4 py-3">${new Date(item.waktu).toLocaleString("id-ID", {
+            dateStyle: "medium",
+            timeStyle: "short"
+          })}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    hapusBtn.addEventListener("click", () => {
+      if (confirm("Yakin ingin menghapus semua riwayat pembayaran?")) {
+        localStorage.removeItem("riwayatPembayaran");
+        loadRiwayat();
+      }
+    });
+
+    loadRiwayat();
+  </script>
+
+</body>
+</html>
