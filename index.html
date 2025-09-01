@@ -1,168 +1,209 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pembayaran E-Wallet</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    body.dark {
-      background-color: #1e293b;
-      color: #cbd5e1;
-    }
-    .dark input,
-    .dark select,
-    .dark button {
-      background-color: #334155;
-      color: #e2e8f0;
-      border-color: #475569;
-    }
-    .dark input::placeholder,
-    .dark select::placeholder {
-      color: #94a3b8;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pembayaran E-Wallet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    body.dark {
+      background-color: #1e293b;
+      color: #cbd5e1;
+    }
+    .dark input,
+    .dark select,
+    .dark button {
+      background-color: #334155;
+      color: #e2e8f0;
+      border-color: #475569;
+    }
+    .dark input::placeholder,
+    .dark select::placeholder {
+      color: #94a3b8;
+    }
+  </style>
 </head>
 <body class="bg-gradient-to-br from-indigo-500 via-blue-600 to-purple-600 min-h-screen flex items-center justify-center p-4 sm:p-6">
 
-  <div class="w-full max-w-xl p-6 sm:p-8 bg-white/90 dark:bg-slate-800 rounded-2xl shadow-2xl">
-    <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-3">
-      <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-slate-200">Pembayaran E-Wallet</h1>
-      <button id="toggleDark"
-        class="bg-indigo-600 dark:bg-indigo-400 text-white dark:text-gray-900 px-4 py-2 rounded-lg shadow hover:bg-indigo-700 dark:hover:bg-indigo-300 transition">
-        Dark Mode
-      </button>
-    </div>
+  <div class="w-full max-w-xl p-6 sm:p-8 bg-white/90 dark:bg-slate-800 rounded-2xl shadow-2xl">
+    <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-3">
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-slate-200">Pembayaran E-Wallet</h1>
+      <button id="toggleDark"
+        class="bg-indigo-600 dark:bg-indigo-400 text-white dark:text-gray-900 px-4 py-2 rounded-lg shadow hover:bg-indigo-700 dark:hover:bg-indigo-300 transition">
+        Dark Mode
+      </button>
+    </div>
 
-    <form id="paymentForm" class="space-y-5">
-      <div>
-        <label class="block text-sm font-semibold text-gray-700 dark:text-slate-300">Nama</label>
-        <input type="text" id="nama" required placeholder="Nama lengkap"
-               class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 shadow-sm" />
-      </div>
+    <form id="paymentForm" class="space-y-5">
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 dark:text-slate-300">Nama</label>
+        <input type="text" id="nama" required placeholder="Nama lengkap"
+               class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 shadow-sm" />
+      </div>
 
-      <div>
-        <label class="block text-sm font-semibold text-gray-700 dark:text-slate-300">E-Wallet</label>
-        <select id="ewallet" required
-                class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 shadow-sm">
-          <option value="">-- Pilih --</option>
-          <option value="GoPay - 0812-3456-7890">GoPay - 0812-3456-7890</option>
-          <option value="OVO - 0821-9876-5432">OVO - 0821-9876-5432</option>
-          <option value="DANA - 0851-2233-1122">DANA - 0851-2233-1122</option>
-        </select>
-      </div>
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 dark:text-slate-300">E-Wallet</label>
+        <select id="ewallet" required
+                class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 shadow-sm">
+          <option value="">-- Pilih --</option>
+          <option value="GoPay - 0812-3456-7890">GoPay - 0812-3456-7890</option>
+          <option value="OVO - 0821-9876-5432">OVO - 0821-9876-5432</option>
+          <option value="DANA - 0851-2233-1122">DANA - 0851-2233-1122</option>
+        </select>
+      </div>
 
-      <div>
-        <label class="block text-sm font-semibold text-gray-700 dark:text-slate-300">Nominal (Rp)</label>
-        <input type="number" id="amount" min="1000" required placeholder="Contoh: 50000"
-               class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 shadow-sm"/>
-      </div>
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 dark:text-slate-300">Nominal (Rp)</label>
+        <select id="presetAmount"
+                class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 shadow-sm mb-2">
+          <option value="">-- Pilih Nominal --</option>
+          <option value="10000">10.000</option>
+          <option value="25000">25.000</option>
+          <option value="50000">50.000</option>
+          <option value="100000">100.000</option>
+          <option value="custom">Nominal lain...</option>
+        </select>
+        <input type="number" id="customAmount" min="1000" placeholder="Masukkan nominal sendiri"
+               class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 shadow-sm"
+               disabled />
+      </div>
 
-      <div>
-        <label class="block text-sm font-semibold text-gray-700 dark:text-slate-300">Upload Bukti Transfer</label>
-        <input type="file" id="bukti" accept="image/*" required
-               class="w-full p-2 border border-gray-300 rounded-lg bg-white dark:bg-slate-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-indigo-600 file:text-white shadow"/>
-      </div>
+      <div>
+        <label class="block text-sm font-semibold text-gray-700 dark:text-slate-300">Upload Bukti Transfer</label>
+        <input type="file" id="bukti" accept="image/*" required
+               class="w-full p-2 border border-gray-300 rounded-lg bg-white dark:bg-slate-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-indigo-600 file:text-white shadow"/>
+      </div>
 
-      <button type="submit"
-              class="w-full bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-400 dark:hover:bg-indigo-500 text-white font-semibold py-3 rounded-lg transition shadow-lg">
-        Kirim ke Telegram
-      </button>
-    </form>
-    
-    <a href="admin.html"
-   onclick="localStorage.setItem('lastVisited', new Date().toISOString());"
-   class="block mt-4 text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow transition">
-   Lihat Riwayat Pembayaran
-</a>
+      <button type="submit"
+              class="w-full bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-400 dark:hover:bg-indigo-500 text-white font-semibold py-3 rounded-lg transition shadow-lg">
+        Kirim ke Telegram
+      </button>
+    </form>
+    
+    <a href="admin.html"
+      onclick="localStorage.setItem('lastVisited', new Date().toISOString());"
+      class="block mt-4 text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg shadow transition">
+      Lihat Riwayat Pembayaran
+    </a>
 
-    <p id="status" class="text-center mt-4 text-sm text-green-600 hidden">✅ Data berhasil dikirim ke Telegram.</p>
-  </div>
-  
+    <p id="status" class="text-center mt-4 text-sm text-green-600 hidden">✅ Data berhasil dikirim ke Telegram.</p>
+  </div>
+  
 
-  <script>
-    const toggleBtn = document.getElementById("toggleDark");
-    const bodyEl = document.body;
+  <script>
+    const toggleBtn = document.getElementById("toggleDark");
+    const bodyEl = document.body;
 
-    if(localStorage.getItem("darkMode") === "enabled") {
-      bodyEl.classList.add("dark");
-      toggleBtn.textContent = "Light Mode";
-    }
+    if(localStorage.getItem("darkMode") === "enabled") {
+      bodyEl.classList.add("dark");
+      toggleBtn.textContent = "Light Mode";
+    }
 
-    toggleBtn.addEventListener("click", () => {
-      bodyEl.classList.toggle("dark");
-      if(bodyEl.classList.contains("dark")) {
-        localStorage.setItem("darkMode", "enabled");
-        toggleBtn.textContent = "Light Mode";
-      } else {
-        localStorage.setItem("darkMode", "disabled");
-        toggleBtn.textContent = "Dark Mode";
-      }
-    });
+    toggleBtn.addEventListener("click", () => {
+      bodyEl.classList.toggle("dark");
+      if(bodyEl.classList.contains("dark")) {
+        localStorage.setItem("darkMode", "enabled");
+        toggleBtn.textContent = "Light Mode";
+      } else {
+        localStorage.setItem("darkMode", "disabled");
+        toggleBtn.textContent = "Dark Mode";
+      }
+    });
 
-    document.getElementById("paymentForm").addEventListener("submit", function(e) {
-      e.preventDefault();
+    // Nominal preset & custom input logic
+    const presetAmount = document.getElementById("presetAmount");
+    const customAmount = document.getElementById("customAmount");
 
-      const BOT_TOKEN = "6950291703:AAHKeH8t8XlYoIjHR8XL_33oUOejTQyHkDs";
-      const CHAT_ID = "5800113255";
+    presetAmount.addEventListener("change", () => {
+      if (presetAmount.value === "custom") {
+        customAmount.disabled = false;
+        customAmount.focus();
+      } else {
+        customAmount.disabled = true;
+        customAmount.value = "";
+      }
+    });
 
-      const nama = document.getElementById("nama").value.trim();
-      const ewallet = document.getElementById("ewallet").value;
-      const amount = document.getElementById("amount").value.trim();
-      const fileInput = document.getElementById("bukti");
-      const file = fileInput.files[0];
+    document.getElementById("paymentForm").addEventListener("submit", function(e) {
+      e.preventDefault();
 
-      if(!file) {
-        alert("Mohon upload bukti pembayaran.");
-        return;
-      }
+      const BOT_TOKEN = "6950291703:AAHKeH8t8XlYoIjHR8XL_33oUOejTQyHkDs";
+      const CHAT_ID = "5800113255";
 
-      const messageText = `💳 *Pembayaran Baru!*
+      const nama = document.getElementById("nama").value.trim();
+      const ewallet = document.getElementById("ewallet").value;
+
+      // Ambil nominal dari preset atau custom
+      let amount = "";
+      if (presetAmount.value === "custom") {
+        amount = customAmount.value.trim();
+        if (!amount || isNaN(amount) || Number(amount) < 1000) {
+          alert("Mohon isi nominal sendiri minimal Rp 1000.");
+          return;
+        }
+      } else {
+        amount = presetAmount.value;
+        if (!amount) {
+          alert("Mohon pilih nominal.");
+          return;
+        }
+      }
+
+      const fileInput = document.getElementById("bukti");
+      const file = fileInput.files[0];
+
+      if(!file) {
+        alert("Mohon upload bukti pembayaran.");
+        return;
+      }
+
+      const messageText = `💳 *Pembayaran Baru!*
 
 👤 Nama: ${nama}
 📱 E-Wallet: ${ewallet}
 💰 Nominal: Rp${amount}`;
 
-      fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id: CHAT_ID, text: messageText, parse_mode: "Markdown" })
-      })
-      .then(() => {
-        const formData = new FormData();
-        formData.append("chat_id", CHAT_ID);
-        formData.append("photo", file);
-        formData.append("caption", "🧾 Bukti transfer dilampirkan.");
-        return fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
-          method: "POST",
-          body: formData
-        });
-      })
-      .then(res => res.json())
-      .then(data => {
-        if(data.ok) {
-          const riwayat = JSON.parse(localStorage.getItem("riwayatPembayaran") || "[]");
-          riwayat.push({ nama, ewallet, amount, waktu: new Date().toISOString() });
-          localStorage.setItem("riwayatPembayaran", JSON.stringify(riwayat));
-          this.reset();
-          const status = document.getElementById("status");
-          status.classList.remove("hidden");
-          setTimeout(() => status.classList.add("hidden"), 4000);
-        } else {
-          alert("Gagal mengirim ke Telegram.");
-        }
-      })
-      .catch(err => {
-        console.error(err);
-        alert("Terjadi kesalahan saat mengirim.");
-      });
-    });
-  </script>
+      fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: CHAT_ID, text: messageText, parse_mode: "Markdown" })
+      })
+      .then(() => {
+        const formData = new FormData();
+        formData.append("chat_id", CHAT_ID);
+        formData.append("photo", file);
+        formData.append("caption", "🧾 Bukti transfer dilampirkan.");
+        return fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+          method: "POST",
+          body: formData
+        });
+      })
+      .then(res => res.json())
+      .then(data => {
+        if(data.ok) {
+          const riwayat = JSON.parse(localStorage.getItem("riwayatPembayaran") || "[]");
+          riwayat.push({ nama, ewallet, amount, waktu: new Date().toISOString() });
+          localStorage.setItem("riwayatPembayaran", JSON.stringify(riwayat));
+          this.reset();
+          customAmount.disabled = true; // reset disabled state juga
+          const status = document.getElementById("status");
+          status.classList.remove("hidden");
+          setTimeout(() => status.classList.add("hidden"), 4000);
+        } else {
+          alert("Gagal mengirim ke Telegram.");
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Terjadi kesalahan saat mengirim.");
+      });
+    });
+  </script>
 
 </body>
 </html>
